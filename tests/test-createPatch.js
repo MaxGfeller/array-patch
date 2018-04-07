@@ -11,7 +11,6 @@ test('one entry changed', function (t) {
   let obj2 = [
     'aaa bbb ccc',
     'a b c d',
-    'blubbi',
     'foo bar whatever'
   ]
 
