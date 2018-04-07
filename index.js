@@ -67,5 +67,16 @@ module.exports.createPatch = function createPatch (arr1, arr2) {
     changes.push({ type: 'deletion', index: parseInt(k) })
   })
 
+  var values = Object.values(map)
+  var lastLeftSideIndex = -1
+  Object.keys(b).map(k => {
+    if (values.includes(k)) {
+      lastLeftSideIndex = values.indexOf(k)
+      return
+    }
+
+    changes.push({ type: 'insertion', index: lastLeftSideIndex, value: arr2[k] })
+  })
+
   return changes
 }
