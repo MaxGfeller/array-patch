@@ -1,0 +1,28 @@
+{
+  "name": "array-patch",
+  "version": "0.0.0",
+  "description": "Create patch diffs for arrays",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard && node tests/test-*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://www.github.com/MaxGfeller/array-patch"
+  },
+  "keywords": [
+    "array",
+    "patch",
+    "diff",
+    "compare"
+  ],
+  "author": "Max Gfeller <max.gfeller@gmail.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "standard": "^11.0.1",
+    "tape": "^4.9.0"
+  },
+  "dependencies": {
+    "object-hash": "^1.3.0"
+  }
+}
