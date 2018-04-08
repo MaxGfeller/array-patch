@@ -50,3 +50,25 @@ test('one entry added', function (t) {
   t.equals(patch[0].index, 1, 'the index must be 1')
   t.end()
 })
+
+test('multiple changes', function (t) {
+  let obj1 = [
+    1,
+    2,
+    3,
+    6,
+    7
+  ]
+  let obj2 = [
+    1,
+    3,
+    4,
+    5,
+    7
+  ]
+
+  let patch = createPatch(obj1, obj2)
+  t.ok(patch)
+  t.equals(patch.length, 3, '2 changes must be included')
+  t.end()
+})
