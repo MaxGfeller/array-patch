@@ -14,7 +14,7 @@ test('one entry changed', function (t) {
     'foo bar whatever'
   ]
 
-  var patch = createPatch(obj1, obj2)
+  let patch = createPatch(obj1, obj2)
   t.ok(patch)
   t.equals(patch.length, 1, 'patch must include one change')
   t.equals(patch[0].type, 'change', 'the type must equal "change"')
@@ -31,10 +31,22 @@ test('one entry removed', function (t) {
     1, 2, 4, 5
   ]
 
-  var patch = createPatch(obj1, obj2)
+  let patch = createPatch(obj1, obj2)
   t.ok(patch)
   t.equals(patch.length, 1, 'patch must include one change')
   t.equals(patch[0].type, 'deletion', 'the type must equal "deletion"')
   t.equals(patch[0].index, 2, 'the index must be 2')
+  t.end()
+})
+
+test('one entry added', function (t) {
+  let obj1 = [1, 2, 4, 5]
+  let obj2 = [1, 2, 3, 4, 5]
+
+  let patch = createPatch(obj1, obj2)
+  t.ok(patch)
+  t.equals(patch.length, 1, 'patch must include one change')
+  t.equals(patch[0].type, 'insertion', 'the type must equal "insertion"')
+  t.equals(patch[0].index, 1, 'the index must be 1')
   t.end()
 })
