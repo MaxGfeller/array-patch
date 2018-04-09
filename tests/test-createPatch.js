@@ -72,3 +72,16 @@ test('multiple changes', function (t) {
   t.equals(patch.length, 3, '2 changes must be included')
   t.end()
 })
+
+test('calling createPatch with anything other than an array should throw', function (t) {
+  t.throws(() => {
+    createPatch({}, [])
+  }, 'input objects need to be arrays')
+  t.throws(() => {
+    createPatch({}, false)
+  }, 'input objects need to be arrays')
+  t.throws(() => {
+    createPatch([], 1)
+  }, 'input objects need to be arrays')
+  t.end()
+})
