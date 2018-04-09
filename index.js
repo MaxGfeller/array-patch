@@ -1,6 +1,10 @@
 const hash = require('object-hash')
 
 module.exports.createPatch = function createPatch (arr1, arr2) {
+  if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
+    throw Error('input objects need to be arrays')
+  }
+
   var changes = []
 
   var a = Object.assign([], arr1).map(k => hash(k))
