@@ -80,7 +80,12 @@ module.exports.createPatch = function createPatch (arr1, arr2) {
       return
     }
 
-    changes.push({ type: 'insertion', index: lastLeftSideIndex, value: arr2[k], count: insertionCounter++ })
+    changes.push({
+      type: 'insertion',
+      index: lastLeftSideIndex,
+      value: arr2[k],
+      count: insertionCounter++
+    })
   })
 
   return changes.sort((a, b) => {
