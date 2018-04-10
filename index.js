@@ -71,6 +71,7 @@ module.exports.createPatch = function createPatch (arr1, arr2) {
     changes.push({ type: 'deletion', index: parseInt(k) })
   })
 
+  var insertionCounter = 0
   var values = Object.values(map)
   var lastLeftSideIndex = -1
   Object.keys(b).map(k => {
@@ -79,8 +80,24 @@ module.exports.createPatch = function createPatch (arr1, arr2) {
       return
     }
 
-    changes.push({ type: 'insertion', index: lastLeftSideIndex, value: arr2[k] })
+    changes.push({ type: 'insertion', index: lastLeftSideIndex, value: arr2[k], count: insertionCounter++ })
   })
 
-  return changes
+  return changes.sort((a, b) => {
+    if (a.index < b.index) return -1
+    if (a.index > b.index) return 1
+    if (a.type === 'change' && b.type === 'change') return 0
+    if (a.type === 'change') return -1
+    if (b.type === 'change') return -1
+    if (a.type === 'deletion' && b.type === 'deletion') return 0
+    if (a.type === 'deletion') return -1
+    if (a.type === 'insertion' && b.type === 'insertion') {
+      if (a.count < b.count) return -1
+      return 1
+    }
+    if (a.type === 'insertion') return -1
+  }).map((x) => {
+    if (typeof x.count !== 'undefined') delete x.count
+    return x
+  })
 }
