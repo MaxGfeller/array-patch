@@ -54,6 +54,8 @@ test('multiple changes', function (t) {
   let patch = createPatch(obj1, obj2)
   t.ok(patch)
   t.equals(patch.length, 3, '2 changes must be included')
+  t.equals(patch[0].index, 1, 'first one first')
+  t.equals(patch[1].index, 3, 'correct order')
   t.end()
 })
 
