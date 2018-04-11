@@ -4,7 +4,7 @@
   "description": "Create patch diffs for arrays",
   "main": "index.js",
   "scripts": {
-    "test": "standard && node tests/test-*.js"
+    "test": "standard && tape tests/test-*.js | tap-spec"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,7 @@
   "license": "ISC",
   "devDependencies": {
     "standard": "^11.0.1",
+    "tap-spec": "^4.1.1",
     "tape": "^4.9.0"
   },
   "dependencies": {
