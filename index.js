@@ -106,3 +106,30 @@ module.exports.createPatch = function createPatch (arr1, arr2) {
     return x
   })
 }
+
+module.exports.applyPatch = function applyPatch (arr, patches) {
+  if (!Array.isArray(arr) || !Array.isArray(patches)) {
+    throw Error('input objects need to be arrays')
+  }
+
+  var obj2 = Object.assign([], arr)
+  var offset = 0
+
+  patches.map((patch) => {
+    if (patch.type === 'change') {
+      obj2[patch.index + offset] = patch.value
+      return
+    }
+
+    if (patch.type === 'insertion') {
+      obj2.splice(patch.index + ++offset, 0, patch.value)
+      return
+    }
+
+    if (patch.type === 'deletion') {
+      obj2.splice(patch.index + offset, 1)
+    }
+  })
+
+  return obj2
+}
