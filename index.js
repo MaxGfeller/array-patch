@@ -1,6 +1,6 @@
 const hash = require('object-hash')
 
-module.exports.createPatch = function createPatch (arr1, arr2) {
+module.exports.createPatch = function createPatch (arr1, arr2, compareFn) {
   if (!Array.isArray(arr1) || !Array.isArray(arr2)) {
     throw Error('input objects need to be arrays')
   }
@@ -59,7 +59,28 @@ module.exports.createPatch = function createPatch (arr1, arr2) {
     if (lastRightSideMatch === null) return
 
     if (Object.values(map).includes(`${parseInt(lastRightSideMatch) + 1}`)) return
-    map[k] = `${parseInt(lastRightSideMatch) + 1}`
+
+    var possibles = []
+
+    for (var i = parseInt(lastRightSideMatch) + 1; i < b.length; i++) {
+      if (!(Object.values(map).includes(`${i}`))) possibles.push(`${i}`)
+    }
+
+    if (possibles.length === 1 || !compareFn) {
+      map[k] = possibles[0]
+
+      lastRightSideMatch = map[k]
+      changes.push({ type: 'change', index: parseInt(k), value: arr2[map[k]] })
+      return
+    }
+
+    let chosen = possibles[0]
+    possibles.map((candidate) => {
+      let result = compareFn.call(null, arr1[k], arr2[candidate])
+      if (true === result) chosen = candidate
+    })
+
+    map[k] = chosen
 
     lastRightSideMatch = map[k]
     changes.push({ type: 'change', index: parseInt(k), value: arr2[map[k]] })
