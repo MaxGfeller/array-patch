@@ -88,7 +88,7 @@ test('pass a compare function and see if gets called', function (t) {
   t.end()
 })
 
-test('pass a compare function and see if gets called', function (t) {
+test('pass a compare function and see if is being used correctly', function (t) {
   let obj1 = ['foo', 'bar', 'baz']
   let obj2 = ['foo', 'blub', 'bar1', 'baz']
 
