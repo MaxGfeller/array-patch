@@ -1,4 +1,5 @@
 const test = require('tape')
+const hash = require('object-hash')
 const { createPatch } = require('../')
 
 test('one entry changed', function (t) {
@@ -69,5 +70,37 @@ test('calling createPatch with anything other than an array should throw', funct
   t.throws(() => {
     createPatch([], 1)
   }, 'input objects need to be arrays')
+  t.end()
+})
+
+test('pass a compare function and see if gets called', function (t) {
+  let obj1 = ['foo', 'bar', 'baz']
+  let obj2 = ['foo', 'blub', 'bar1', 'baz']
+
+  let comparisons = []
+  let patch = createPatch(obj1, obj2, (val1, val2) => {
+    comparisons.push([val1, val2])
+    return false
+  })
+  t.equals(comparisons.length, 2, 'compare function has been called twice')
+  t.equals(hash(comparisons[0]), hash(['bar', 'blub']))
+  t.equals(hash(comparisons[1]), hash(['bar', 'bar1']))
+  t.end()
+})
+
+test('pass a compare function and see if gets called', function (t) {
+  let obj1 = ['foo', 'bar', 'baz']
+  let obj2 = ['foo', 'blub', 'bar1', 'baz']
+
+  let patch = createPatch(obj1, obj2, (val1, val2) => {
+    if (val2.indexOf(val1) > -1) return true
+    return false
+  })
+
+  t.equals(patch.length, 2)
+  t.equals(patch[0].type, 'insertion')
+  t.equals(patch[1].type, 'change')
+  t.equals(patch[1].index, 1)
+  t.equals(patch[1].value, 'bar1')
   t.end()
 })
