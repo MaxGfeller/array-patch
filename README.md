@@ -21,6 +21,10 @@ console.log(applyPatch(arr1, patch))
 // => [1, 3, 4, 6]
 ```
 
+Applying a produced patch always transforms the first array into the second. If you
+find a case where the resulting patched array is not equal to the given second array,
+please file an issue.
+
 ## Requirements
 
 This module runs on `node >= 8` and modern browsers using [Browserify](http://browserify.org/)
