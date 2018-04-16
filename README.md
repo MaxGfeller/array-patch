@@ -25,6 +25,46 @@ Applying a produced patch always transforms the first array into the second. If 
 find a case where the resulting patched array is not equal to the given second array,
 please file an issue.
 
+### The `compare` function
+
+This module works by first building a list of unchanged couples using
+[`object-hash`](https://npm.im/object-hash). This works very well for most cases
+but imagine the following scenario:
+
+```javascript
+var arr1 = ['foo', 'bar', 'baz']
+var arr2 = ['foo', 'blub', 'bar1', 'baz']
+```
+
+Visibly it's clear that we inserted a new entry 'blub' into the second array
+and changed the value of the entry 'bar' to 'bar1'. But because the hashes
+obviously change when the value changes, the result in this case would be that
+we have a change from 'bar' to 'blub' and a new entry 'bar1'.
+
+To catch those unnecessary changes you can give a `compare` function. This will
+be applied for the cases where it's not entirely clear and there are multiple
+possible candidates.
+
+The arguments for the function will be the value from the initial array and the
+possible value from the second array. If the value changed, the function must
+return `true`, otherwise `false`.
+
+This example can be implemented like the following:
+
+```javascript
+var arr1 = ['foo', 'bar', 'baz']
+var arr2 = ['foo', 'blub', 'bar1', 'baz']
+
+var patch = createPatch(arr1, arr2, (val1, val2) => {
+  if (val2.indexOf(val1) > -1) return true
+  return false
+})
+
+console.log(patch)
+// => [ { type: 'insertion', index: 0, value: 'blub' },
+//  { type: 'change', index: 1, value: 'bar1' } ]
+```
+
 ## Requirements
 
 This module runs on `node >= 8` and modern browsers using [Browserify](http://browserify.org/)
