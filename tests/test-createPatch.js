@@ -78,7 +78,7 @@ test('pass a compare function and see if gets called', function (t) {
   let obj2 = ['foo', 'blub', 'bar1', 'baz']
 
   let comparisons = []
-  let patch = createPatch(obj1, obj2, (val1, val2) => {
+  createPatch(obj1, obj2, (val1, val2) => {
     comparisons.push([val1, val2])
     return false
   })

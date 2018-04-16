@@ -62,7 +62,7 @@ module.exports.createPatch = function createPatch (arr1, arr2, compareFn) {
 
     var possibles = []
 
-    for (var i = parseInt(lastRightSideMatch) + 1; i < b.length; i++) {
+    for (let i = parseInt(lastRightSideMatch) + 1; i < b.length; i++) {
       if (!(Object.values(map).includes(`${i}`))) possibles.push(`${i}`)
     }
 
@@ -76,8 +76,8 @@ module.exports.createPatch = function createPatch (arr1, arr2, compareFn) {
 
     let chosen = possibles[0]
     possibles.map((candidate) => {
-      let result = compareFn.call(null, arr1[k], arr2[candidate])
-      if (true === result) chosen = candidate
+      let result = compareFn(arr1[k], arr2[candidate])
+      if (result === true) chosen = candidate
     })
 
     map[k] = chosen
