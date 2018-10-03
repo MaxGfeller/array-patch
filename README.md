@@ -46,19 +46,33 @@ be applied for the cases where it's not entirely clear and there are multiple
 possible candidates.
 
 The arguments for the function will be the value from the initial array and the
-possible value from the second array. If the value changed, the function must
-return `true`, otherwise `false`.
+possible value from the second array. The function must return a value between 0 and 1
+representing the similarity of the two values
 
 This example can be implemented like the following:
 
 ```javascript
+var arr1 = [1, 2, 3, 4]
+var arr2 = [1, 5, 2, 4]
+
+var patch = createPatch(arr1, arr2, (val1, val2) => {
+  return val2 / val1
+})
+
+console.log(patch)
+// => [ { type: 'insertion', index: 1, value: 5 },
+//  { type: 'deletion', index: 2 } ]
+```
+
+For a text array you could use [`similarity`](https://npm.im/similarity) like the following:
+
+```javascript
+var similarity = require('similarity')
+
 var arr1 = ['foo', 'bar', 'baz']
 var arr2 = ['foo', 'blub', 'bar1', 'baz']
 
-var patch = createPatch(arr1, arr2, (val1, val2) => {
-  if (val2.indexOf(val1) > -1) return true
-  return false
-})
+var patch = createPatch(arr1, arr2, similarity)
 
 console.log(patch)
 // => [ { type: 'insertion', index: 0, value: 'blub' },

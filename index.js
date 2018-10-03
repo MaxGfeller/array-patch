@@ -75,9 +75,14 @@ module.exports.createPatch = function createPatch (arr1, arr2, compareFn) {
     }
 
     let chosen = possibles[0]
+    let chosenValue = 0
     possibles.map((candidate) => {
-      let result = compareFn(arr1[k], arr2[candidate])
-      if (result === true) chosen = candidate
+      // returns a decimal value representing the similarity between candidates
+      let similarity = compareFn(arr1[k], arr2[candidate])
+      if (similarity > chosenValue) {
+        chosen = candidate
+        chosenValue = similarity
+      }
     })
 
     map[k] = chosen
