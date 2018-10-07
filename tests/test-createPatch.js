@@ -108,7 +108,7 @@ test('pass a compare function and see if is being used correctly on numbers', fu
   let obj1 = [1, 2, 3, 4]
   let obj2 = [1, 5, 2, 4]
 
-  let patch = createPatch(arr1, arr2, (val1, val2) => {
+  let patch = createPatch(obj1, obj2, (val1, val2) => {
     return val2 / val1
   })
   t.ok(patch)
