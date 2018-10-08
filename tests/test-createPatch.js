@@ -88,19 +88,34 @@ test('pass a compare function and see if gets called', function (t) {
   t.end()
 })
 
-test('pass a compare function and see if is being used correctly', function (t) {
+test('pass a compare function and see if is being used correctly on strings', function (t) {
+  const similarity = require('similarity')
+
   let obj1 = ['foo', 'bar', 'baz']
   let obj2 = ['foo', 'blub', 'bar1', 'baz']
 
-  let patch = createPatch(obj1, obj2, (val1, val2) => {
-    if (val2.indexOf(val1) > -1) return true
-    return false
-  })
-
+  let patch = createPatch(obj1, obj2, similarity)
+  t.ok(patch)
   t.equals(patch.length, 2)
   t.equals(patch[0].type, 'insertion')
   t.equals(patch[1].type, 'change')
   t.equals(patch[1].index, 1)
   t.equals(patch[1].value, 'bar1')
+  t.end()
+})
+
+test('pass a compare function and see if is being used correctly on numbers', function (t) {
+  let obj1 = [1, 2, 3, 4]
+  let obj2 = [1, 5, 2, 4]
+
+  let patch = createPatch(obj1, obj2, (val1, val2) => {
+    return val2 / val1
+  })
+  t.ok(patch)
+  t.equals(patch.length, 2)
+  t.equals(patch[0].type, 'insertion')
+  t.equals(patch[1].type, 'deletion')
+  t.equals(patch[1].index, 2)
+  t.equals(patch[0].value, 5)
   t.end()
 })
