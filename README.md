@@ -46,8 +46,8 @@ be applied for the cases where it's not entirely clear and there are multiple
 possible candidates.
 
 The arguments for the function will be the value from the initial array and the
-possible value from the second array. The function must return a value between 0 and 1
-representing the similarity of the two values
+possible value from the second array. The function must return a numerical value
+representing the similarity of the two values.
 
 This example can be implemented like the following:
 
